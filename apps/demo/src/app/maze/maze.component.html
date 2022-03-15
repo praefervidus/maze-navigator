@@ -1,0 +1,12 @@
+<table>
+  <thead>
+    <th>{{ this.maze.name }}</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cellRow of this.maze.cells">
+      <td *ngFor="let c of cellRow">
+        <valant-cell [cell]="c"></valant-cell>
+      </td>
+    </tr>
+  </tbody>
+</table>

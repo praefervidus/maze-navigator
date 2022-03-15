@@ -3,6 +3,37 @@
   <h1>Welcome to {{ title }}</h1>
 </header>
 <main>
-  <h2>Hi there</h2>
-  <p>Thanks for being you.</p>
+  <section *ngIf="this.mazes.length > 0">
+    <form [formGroup]="selectedMazeForm" class="form-group" (ngSubmit)="startMaze()">
+      <select id="selectedMaze" class="form-control" formControlName="selectedMaze">
+        <option *ngFor="let maze of this.mazes" [value]="maze.name">{{ maze.name }}</option>
+      </select>
+      <button class="btn btn-success" [disabled]="selectedMazeForm.invalid" type="submit">Start</button>
+    </form>
+  </section>
+  <section>
+    <article>
+      <span *ngIf="this.mazes.length > 0; else nomazes">
+        <valant-maze *ngIf="this.currentMaze !== null; else noselectedmaze" [maze]="this.viewport"></valant-maze>
+        <ng-template #noselectedmaze>Pick a maze to start playing!</ng-template>
+      </span>
+      <ng-template #nomazes>Hmm... It seems you haven't uploaded any mazes to navigate yet.</ng-template>
+    </article>
+    <article *ngIf="this.currentMaze !== null">
+      <span *ngIf="this.currentMazeSolved; else notsolved">You have solved the maze named {{ this.currentMaze.name }}!!</span>
+      <ng-template #notsolved>
+        <button (click)="goLeft()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/31/31931.png?w=826" /></button>
+        <button (click)="goUp()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/31/31838.png?w=826" /></button>
+        <button (click)="goDown()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/31/31945.png?w=826" /></button>
+        <button (click)="goRight()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/30/30997.png?w=826" /></button>
+      </ng-template>
+    </article>
+  </section>
 </main>
+<footer>
+  <form [formGroup]="mazeUploadForm" (ngSubmit)="addNewMaze()">
+    <input type="text" id="name" class="form-control" placeholder="Maze Name" formControlName="name" />
+    <input type="file" id="file" (change)="onFileChange($event)" class="form-control" formControlName="file" #file />
+    <button class="btn btn-primary" [disabled]="mazeUploadForm.invalid" type="submit">Upload Maze</button>
+  </form>
+</footer>
