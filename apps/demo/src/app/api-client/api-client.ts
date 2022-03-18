@@ -12,6 +12,7 @@ import { Observable, throwError as _observableThrow, of as _observableOf } from 
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { IMaze } from '../maze/maze.model';
+import { environment } from '../../environments/environment';
 
 export module ValantDemoApiClient {
 
@@ -23,7 +24,7 @@ export class Client {
 
     constructor(@Inject(HttpClient) http: HttpClient) {
         this.http = http;
-        this.baseUrl = 'http://localhost:5000';
+        this.baseUrl = environment.baseUrl;
     }
 
     /**
