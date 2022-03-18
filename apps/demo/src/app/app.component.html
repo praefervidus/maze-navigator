@@ -4,7 +4,7 @@
 </header>
 <br />
 <main class="flex">
-  <section>
+  <section class="wrapper">
     <article>
       <span *ngIf="this.mazes.length > 0; else nomazes">
         <valant-maze *ngIf="this.currentMaze !== null; else noselectedmaze" [maze]="this.viewport"></valant-maze>
@@ -14,7 +14,7 @@
     </article>
     <article *ngIf="this.currentMaze !== null">
       <span *ngIf="this.currentMazeSolved; else notsolved">
-        <h1>You have solved the maze named {{ this.currentMaze.name }}!!</h1>
+        <h1 class="solved">You have solved the maze named {{ this.currentMaze.name }}!!</h1>
       </span>
       <ng-template #notsolved>
         <div class="flex row">
@@ -31,7 +31,7 @@
 <footer class="flex col">
   <section *ngIf="this.mazes.length > 0">
     <form [formGroup]="selectedMazeForm" class="form-group" (ngSubmit)="startMaze()">
-      <label for="selectedMaze">Mazes Available: </label>
+      <label for="selectedMaze">Mazes Available:&emsp;</label>
       <select id="selectedMaze" class="form-control" formControlName="selectedMaze">
         <option *ngFor="let maze of this.mazes" [value]="maze.name">{{ maze.name }}</option>
       </select>
@@ -42,7 +42,7 @@
   <section>
     <form [formGroup]="mazeUploadForm" (ngSubmit)="addNewMaze()">
       <input type="text" id="name" class="form-control" placeholder="Maze Name" formControlName="name" />
-      <input type="file" id="file" (change)="onFileChange($event)" class="form-control" formControlName="file" #file />
+      <input class="btn" type="file" id="file" (change)="onFileChange($event)" class="form-control" formControlName="file" #file />
       <button class="btn btn-primary" [disabled]="mazeUploadForm.invalid" type="submit">Upload Maze</button>
     </form>
   </section>

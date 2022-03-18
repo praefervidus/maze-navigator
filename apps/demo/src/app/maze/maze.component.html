@@ -1,5 +1,5 @@
 <div *ngIf="this.maze; else nomaze">
-  <h1>{{ this.maze.name }}</h1>
+  <h1>Maze:&ensp;{{ this.maze.name }}</h1>
   <table>
     <tbody>
       <tr *ngFor="let cellRow of this.maze.cells">
@@ -9,5 +9,8 @@
       </tr>
     </tbody>
   </table>
+  <br />
+  <span>Use the arrow keys below, or on your keyboard.</span>
+  <hr />
 </div>
 <ng-template #nomaze></ng-template>
