@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Cell } from './cell.model';
+import { Cell, CellType } from './cell.model';
 
 @Component({
   selector: 'valant-cell',
@@ -14,19 +14,19 @@ export class CellComponent implements OnInit {
   constructor() { }
   ngOnInit(): void {
     switch(this.cell) {
-      case Cell.WALL:
+      case CellType.WALL:
         this.iconUrl = "https://cdn-icons-png.flaticon.com/512/95/95474.png";
         break;
-      case Cell.PATH:
+      case CellType.PATH:
         this.iconUrl = "https://cdn-icons-png.flaticon.com/512/1179/1179022.png?w=826";
         break;
-      case Cell.START:
+      case CellType.START:
         this.iconUrl = "https://cdn-icons-png.flaticon.com/512/783/783545.png?w=826";
         break;
-      case Cell.END:
+      case CellType.END:
         this.iconUrl = "https://cdn-icons-png.flaticon.com/512/1152/1152934.png?w=826";
         break;
-      case Cell.PLAYER:
+      case CellType.PLAYER:
         this.iconUrl = "https://cdn-icons-png.flaticon.com/512/1253/1253710.png"
         break;
       default:

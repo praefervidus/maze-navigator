@@ -1,8 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoggingService } from './logging/logging.service';
-import { Maze, getMazeViewport, getMazeStart, isValidMazePos } from './maze/maze.model';
-import { Cell, isTraversable } from './cell/cell.model';
+import { Maze, getMazeViewport, getMazeStart, IMaze, convertFileToMazeCells } from './maze/maze.model';
+import { CellType, isTraversable } from './cell/cell.model';
+import { MazesService } from './mazes/mazes.service';
 
 @Component({
   selector: 'valant-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
 
   public currentMaze: Maze | null;
   public currentMazeSolved: boolean;
-  public mazes: Maze[];
+  public mazes: IMaze[];
   public viewport: Maze | null;
   public playerPosition: number[] | null;
 
@@ -24,7 +25,7 @@ export class AppComponent implements OnInit {
   mazeUploadForm: FormGroup;
   protected uploadedFileContents: string = "";
 
-  constructor(private logger: LoggingService) {
+  constructor(private logger: LoggingService, private mazesService: MazesService) {
     this.mazes = [];
     this.currentMaze = null;
     this.currentMazeSolved = false;
@@ -46,6 +47,11 @@ export class AppComponent implements OnInit {
     this.selectedMazeForm = new FormGroup({
       selectedMaze: new FormControl('', [Validators.required])
     });
+    this.mazesService.getMazes().subscribe(result => {
+      if(result.length > 0) {
+        this.mazes = this.mazes.concat(result);
+      }
+    });
   }
 
   onFileChange(event: any) {
@@ -63,13 +69,18 @@ export class AppComponent implements OnInit {
   }
 
   addNewMaze() {
-    this.mazes.push(new Maze(this.mazeUploadForm.get('name')?.value, this.uploadedFileContents));
+    const newMaze = new Maze({
+      name: this.mazeUploadForm.get('name')?.value,
+      cells: convertFileToMazeCells(this.uploadedFileContents)
+    });
+    this.mazes.push(newMaze);
+    this.mazesService.postMaze(newMaze);
     this.mazeUploadForm.reset();
     this.logger.log('Maze was uploaded.');
   }
 
   startMaze() {
-    this.currentMaze = this.mazes.find( (m: Maze) => m.name == this.selectedMazeForm.get('selectedMaze')?.value );
+    this.currentMaze = this.mazes.find( (m) => m.name == this.selectedMazeForm.get('selectedMaze')?.value );
     this.playerPosition = getMazeStart(this.currentMaze);
     this.updateViewport();
     this.logger.log('Maze was started.');
@@ -77,7 +88,7 @@ export class AppComponent implements OnInit {
   
   updateViewport() {
     const [row, col] = this.playerPosition;
-    this.currentMazeSolved = (this.currentMaze.cells[row][col] === Cell.END);
+    this.currentMazeSolved = (this.currentMaze.cells[row][col] === CellType.END);
     this.viewport = getMazeViewport(this.currentMaze, row, col);
   }
 
