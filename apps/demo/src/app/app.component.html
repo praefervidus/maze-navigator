@@ -2,15 +2,8 @@
   <img alt="Valant logo" width="150" src="../assets/valant_logo.png" />
   <h1>Welcome to {{ title }}</h1>
 </header>
-<main>
-  <section *ngIf="this.mazes.length > 0">
-    <form [formGroup]="selectedMazeForm" class="form-group" (ngSubmit)="startMaze()">
-      <select id="selectedMaze" class="form-control" formControlName="selectedMaze">
-        <option *ngFor="let maze of this.mazes" [value]="maze.name">{{ maze.name }}</option>
-      </select>
-      <button class="btn btn-success" [disabled]="selectedMazeForm.invalid" type="submit">Start</button>
-    </form>
-  </section>
+<br />
+<main class="flex">
   <section>
     <article>
       <span *ngIf="this.mazes.length > 0; else nomazes">
@@ -20,20 +13,37 @@
       <ng-template #nomazes>Hmm... It seems you haven't uploaded any mazes to navigate yet.</ng-template>
     </article>
     <article *ngIf="this.currentMaze !== null">
-      <span *ngIf="this.currentMazeSolved; else notsolved">You have solved the maze named {{ this.currentMaze.name }}!!</span>
+      <span *ngIf="this.currentMazeSolved; else notsolved">
+        <h1>You have solved the maze named {{ this.currentMaze.name }}!!</h1>
+      </span>
       <ng-template #notsolved>
-        <button (click)="goLeft()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/31/31931.png?w=826" /></button>
-        <button (click)="goUp()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/31/31838.png?w=826" /></button>
-        <button (click)="goDown()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/31/31945.png?w=826" /></button>
-        <button (click)="goRight()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/30/30997.png?w=826" /></button>
+        <div class="flex row">
+          <button (click)="goLeft()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/31/31931.png?w=826" /></button>
+          <button (click)="goUp()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/31/31838.png?w=826" /></button>
+          <button (click)="goDown()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/31/31945.png?w=826" /></button>
+          <button (click)="goRight()" ><img class="inputKeys" src="https://cdn-icons-png.flaticon.com/512/30/30997.png?w=826" /></button>
+        </div>
       </ng-template>
     </article>
   </section>
 </main>
-<footer>
-  <form [formGroup]="mazeUploadForm" (ngSubmit)="addNewMaze()">
-    <input type="text" id="name" class="form-control" placeholder="Maze Name" formControlName="name" />
-    <input type="file" id="file" (change)="onFileChange($event)" class="form-control" formControlName="file" #file />
-    <button class="btn btn-primary" [disabled]="mazeUploadForm.invalid" type="submit">Upload Maze</button>
-  </form>
+<br />
+<footer class="flex col">
+  <section *ngIf="this.mazes.length > 0">
+    <form [formGroup]="selectedMazeForm" class="form-group" (ngSubmit)="startMaze()">
+      <label for="selectedMaze">Mazes Available: </label>
+      <select id="selectedMaze" class="form-control" formControlName="selectedMaze">
+        <option *ngFor="let maze of this.mazes" [value]="maze.name">{{ maze.name }}</option>
+      </select>
+      <button class="btn btn-success" [disabled]="selectedMazeForm.invalid" type="submit">Start</button>
+    </form>
+  </section>
+  <br />
+  <section>
+    <form [formGroup]="mazeUploadForm" (ngSubmit)="addNewMaze()">
+      <input type="text" id="name" class="form-control" placeholder="Maze Name" formControlName="name" />
+      <input type="file" id="file" (change)="onFileChange($event)" class="form-control" formControlName="file" #file />
+      <button class="btn btn-primary" [disabled]="mazeUploadForm.invalid" type="submit">Upload Maze</button>
+    </form>
+  </section>
 </footer>

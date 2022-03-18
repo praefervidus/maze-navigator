@@ -1,7 +1,5 @@
+<h1>{{ this.maze.name }}</h1>
 <table>
-  <thead>
-    <th>{{ this.maze.name }}</th>
-  </thead>
   <tbody>
     <tr *ngFor="let cellRow of this.maze.cells">
       <td *ngFor="let c of cellRow">
