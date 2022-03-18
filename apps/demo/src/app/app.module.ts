@@ -8,6 +8,7 @@ import { MazeComponent } from './maze/maze.component';
 import { CellComponent } from './cell/cell.component';
 import { MazesService } from './mazes/mazes.service';
 import { ValantDemoApiClient } from './api-client/api-client';
+import { HttpClientModule } from '@angular/common/http';
 
 export function getBaseUrl(): string {
   return environment.baseUrl;
@@ -15,8 +16,8 @@ export function getBaseUrl(): string {
 
 @NgModule({
   declarations: [AppComponent, MazeComponent, CellComponent],
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule],
-  providers: [LoggingService, ValantDemoApiClient.Client, MazesService],
+  imports: [BrowserModule, FormsModule, HttpClientModule, ReactiveFormsModule],
+  providers: [LoggingService, MazesService, ValantDemoApiClient.Client],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

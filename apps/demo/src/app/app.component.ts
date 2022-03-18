@@ -50,6 +50,7 @@ export class AppComponent implements OnInit {
     this.mazesService.getMazes().subscribe(result => {
       if(result.length > 0) {
         this.mazes = this.mazes.concat(result);
+        this.logger.log('Mazes retrieved from server')
       }
     });
   }
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit {
       const file = event.target.files[0];
       if (file) {
         this.fileReader.readAsText(file as File); // parse uploaded file -> this.uploadedFileContents
-        this.logger.log('File was uploaded and read.')
+        this.logger.log('File was read.')
       }
       else {
         // TODO: something happened - alert user
@@ -74,7 +75,7 @@ export class AppComponent implements OnInit {
       cells: convertFileToMazeCells(this.uploadedFileContents)
     });
     this.mazes.push(newMaze);
-    this.mazesService.postMaze(newMaze);
+    this.mazesService.postMaze(newMaze).subscribe();
     this.mazeUploadForm.reset();
     this.logger.log('Maze was uploaded.');
   }

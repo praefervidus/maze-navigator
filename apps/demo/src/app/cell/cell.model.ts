@@ -7,7 +7,7 @@ export enum CellType
   PLAYER  = "@"
 }
 
-export type Cell = "S" | "E" | "O" | "X" | "@";
+export type Cell = "S" | "E" | "O" | "X" | "@" | (string & {});
 
 export const isTraversable = (cell: string): boolean =>
 {
