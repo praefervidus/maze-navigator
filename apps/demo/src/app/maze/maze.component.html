@@ -1,12 +1,13 @@
-<table>
-  <thead>
-    <th>{{ this.maze.name }}</th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let cellRow of this.maze.cells">
-      <td *ngFor="let c of cellRow">
-        <valant-cell [cell]="c"></valant-cell>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div *ngIf="this.maze; else nomaze">
+  <h1>{{ this.maze.name }}</h1>
+  <table>
+    <tbody>
+      <tr *ngFor="let cellRow of this.maze.cells">
+        <td *ngFor="let c of cellRow">
+          <valant-cell [cell]="c"></valant-cell>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #nomaze></ng-template>

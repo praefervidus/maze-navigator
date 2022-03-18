@@ -1,13 +1,15 @@
-export enum Cell
+export enum CellType
 {
-  START   = 'S',
-  END     = 'E',
-  PATH    = 'O',
-  WALL    = 'X',
-  PLAYER  = '@'
+  START   = "S",
+  END     = "E",
+  PATH    = "O",
+  WALL    = "X",
+  PLAYER  = "@"
 }
+
+export type Cell = "S" | "E" | "O" | "X" | "@" | (string & {});
 
 export const isTraversable = (cell: string): boolean =>
 {
-  return cell !== Cell.WALL;
+  return cell !== CellType.WALL;
 }

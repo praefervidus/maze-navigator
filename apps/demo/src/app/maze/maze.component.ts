@@ -8,7 +8,7 @@ import { Maze } from './maze.model';
 })
 export class MazeComponent implements OnInit {
 
-  @Input() maze : Maze;
+  @Input() maze : Maze | null;
 
   ngOnInit(): void {
   }
